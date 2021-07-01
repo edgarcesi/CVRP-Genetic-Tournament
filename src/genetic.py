@@ -87,8 +87,11 @@ if __name__ == "__main__":
 
     # Best chromosome
     best_chromosome = chromosomes[0]
-    best_fitness = fitness(best_chromosome, customers=customers, DEPOT_COORDINATE=depot)
+    best_fitness = fitness(
+        best_chromosome,
+        customers=customers,
+        DEPOT_COORDINATE=depot
+    )
 
-    print(chromosomes)
     print(best_chromosome)
     print(best_fitness)

@@ -45,7 +45,6 @@ def separate_by_capacity(
             # We only care about the chromosome parts respecting
             # the capacity constraint
             if (total_demand + demand) > vehicles_capacity:
-
                 # Add new gene to the new chromosome
                 new_chromosome.append(gene.copy())
 
@@ -203,7 +202,7 @@ def tournament_selection(
 
         selection.append(compare)
 
-    return np.array(selection)
+    return selection
 
 
 def mutation(
