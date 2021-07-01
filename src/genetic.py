@@ -29,9 +29,17 @@ PROBABILITY_MUTATION = 0.4
 """Probability for a chromosome to mutate.
 """
 
+NUMBER_VEHICLES = 4
+"""Number of vehicles.
+"""
+
 CVRP_INSTANCE = ''
 """Path to a CVRP instance file.
 """
+COORDINATES_DEPOT = None
+"""Location on the depot.
+"""
+
 
 if __name__ == "__main__":
     if CVRP_INSTANCE != '':
@@ -47,9 +55,11 @@ if __name__ == "__main__":
             max_demand=20
         )
 
+        # Set depot location
+        COORDINATES_DEPOT = (0, 0)
+
     # Initialize population
     chromosomes = population.create_population(
-        POPULATION_SIZE=POPULATION_SIZE,
         vehicles_capacity=vehicles_capacity,
         customers=customers
     )
@@ -60,9 +70,7 @@ if __name__ == "__main__":
         chromosomes = population.tournament_selection(
             chromosomes=chromosomes,
             customers=customers,
-            COORDINATES_DEPOT=depot,
-            NUMBER_TOURNAMENT_SELECTION=NUMBER_TOURNAMENT_SELECTION,
-            PROBABILITY_ELITISM=PROBABILITY_ELITISM
+            COORDINATES_DEPOT=COORDINATES_DEPOT
         )
 
         # Crossover
@@ -70,8 +78,7 @@ if __name__ == "__main__":
             chromosomes=chromosomes,
             customers=customers,
             vehicles_capacity=vehicles_capacity,
-            CROSSOVER_METHOD=CROSSOVER_METHOD,
-            PROBABILITY_ELITISM=PROBABILITY_ELITISM
+            COORDINATES_DEPOT=COORDINATES_DEPOT
         )
 
         # Mutation
@@ -79,10 +86,7 @@ if __name__ == "__main__":
             chromosomes=chromosomes,
             customers=customers,
             vehicles_capacity=vehicles_capacity,
-            COORDINATES_DEPOT=depot,
-            PROBABILITY_ELITISM=PROBABILITY_ELITISM,
-            PROBABILITY_MUTATION=PROBABILITY_MUTATION,
-            MUTATION_METHOD=MUTATION_METHOD
+            COORDINATES_DEPOT=COORDINATES_DEPOT
         )
 
     # Best chromosome
@@ -90,7 +94,7 @@ if __name__ == "__main__":
     best_fitness = fitness(
         best_chromosome,
         customers=customers,
-        DEPOT_COORDINATE=depot
+        COORDINATES_DEPOT=depot
     )
 
     print(best_chromosome)

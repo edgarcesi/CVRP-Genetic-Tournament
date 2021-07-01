@@ -5,10 +5,12 @@ from random import random, sample
 from copy import deepcopy
 from chromosome import fitness, pmx, obx
 from utils import create_shuffle_array
+from genetic import POPULATION_SIZE, PROBABILITY_ELITISM, \
+    NUMBER_TOURNAMENT_SELECTION, CROSSOVER_METHOD, PROBABILITY_MUTATION, \
+    MUTATION_METHOD
 
 
 def create_population(
-    POPULATION_SIZE,
     vehicles_capacity,
     customers
 ):
@@ -70,7 +72,8 @@ def separate_by_capacity(
 
 def elistism(
     chromosomes,
-    PROBABILITY_ELITISM
+    customers,
+    COORDINATES_DEPOT
 ):
     elites = []
 
@@ -78,7 +81,8 @@ def elistism(
         best = chromosomes[0]
         pos = 0
         for i in range(len(chromosomes)):
-            if fitness(chromosomes[i]) < fitness(best):
+            if fitness(chromosomes[i], customers, COORDINATES_DEPOT) \
+                    < fitness(best, customers, COORDINATES_DEPOT):
                 pos = i
                 best = chromosomes[i]
         elites.append(
@@ -93,14 +97,13 @@ def crossover(
     chromosomes,
     customers,
     vehicles_capacity,
-    CROSSOVER_METHOD,
-    PROBABILITY_ELITISM
+    COORDINATES_DEPOT
 ):
     crossed_chromosomes = []
     chromosomes_copy = chromosomes.copy()
 
     # Elitism
-    crossed_chromosomes = elistism(chromosomes, PROBABILITY_ELITISM)
+    crossed_chromosomes = elistism(chromosomes, customers, COORDINATES_DEPOT)
 
     # Number of chromosomes to create
     num_chromosomes = len(chromosomes)
@@ -159,9 +162,7 @@ def crossover(
 def tournament_selection(
     chromosomes,
     customers,
-    COORDINATES_DEPOT,
-    NUMBER_TOURNAMENT_SELECTION,
-    PROBABILITY_ELITISM
+    COORDINATES_DEPOT
 ):
     selection = []
 
@@ -208,10 +209,7 @@ def mutation(
     chromosomes,
     customers,
     vehicles_capacity,
-    COORDINATES_DEPOT,
-    PROBABILITY_ELITISM,
-    PROBABILITY_MUTATION,
-    MUTATION_METHOD
+    COORDINATES_DEPOT
 ):
     mutated_chromosomes = []
 

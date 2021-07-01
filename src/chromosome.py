@@ -3,14 +3,14 @@ from random import sample
 from utils import reorder_array, change_position_array, distance
 
 
-def fitness(chromosome, customers, DEPOT_COORDINATE):
+def fitness(chromosome, customers, COORDINATES_DEPOT):
     fitness = 0
 
     for i in range(len(chromosome)):
         routes = []
 
         # Add depot at route start
-        routes.append(DEPOT_COORDINATE)
+        routes.append(COORDINATES_DEPOT)
 
         # Retrieve routes customers
         for y in range(len(chromosome[i])):
@@ -19,7 +19,7 @@ def fitness(chromosome, customers, DEPOT_COORDINATE):
             routes.append(customer_coordinate)
 
         # Add depot at route end
-        routes.append(DEPOT_COORDINATE)
+        routes.append(COORDINATES_DEPOT)
 
         # Calculate chromosome fitness
         for i in range(len(routes) - 1):

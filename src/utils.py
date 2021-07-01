@@ -35,6 +35,6 @@ def change_position_array(a, b, positions):
 
 
 def distance(a, b):
-    xa, ya = a
-    xb, yb = b
+    xa, ya = a[0], a[1]
+    xb, yb = b[0], b[1]
     return sqrt((xa - xb) ** 2 + (ya - yb) ** 2)
