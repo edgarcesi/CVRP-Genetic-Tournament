@@ -29,10 +29,6 @@ PROBABILITY_MUTATION = 0.4
 """Probability for a chromosome to mutate.
 """
 
-NUMBER_VEHICLES = 4
-"""Number of vehicles.
-"""
-
 CVRP_INSTANCE = ''
 """Path to a CVRP instance file.
 """
@@ -47,8 +43,9 @@ if __name__ == "__main__":
         pass
     else:
         # Generate random data
-        depot, customers, vehicles_capacity = data.generate_data(
+        customers, vehicles_capacity = data.generate_data(
             num_customers=100,
+            num_vehicles=5,
             min_distance=5,
             max_distance=20,
             min_demand=0,
@@ -94,7 +91,7 @@ if __name__ == "__main__":
     best_fitness = fitness(
         best_chromosome,
         customers=customers,
-        COORDINATES_DEPOT=depot
+        COORDINATES_DEPOT=COORDINATES_DEPOT
     )
 
     print(best_chromosome)

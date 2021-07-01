@@ -4,16 +4,17 @@ from math import pi, sqrt, cos, sin
 
 def generate_data(
     num_customers,
+    num_vehicles,
     min_distance,
     max_distance,
     min_demand,
     max_demand
 ):
-    # Depot
-    depot = (0, 0)
+    xl = []
+    yl = []
+    dl = []
 
     # Random customers in a circle area around depot
-    customers = []
     for _ in range(num_customers):
         # Coordinates
         a = randint(min_distance, max_distance) * 2 * pi
@@ -23,15 +24,14 @@ def generate_data(
         # Demand
         d = randint(min_demand, max_demand)
 
-        # Vehicles capacity
-        vehicles_capacity = randint(
-            min_demand * num_customers,
-            max_demand * num_customers
-        )
+        xl.append(x)
+        yl.append(y)
+        dl.append(d)
 
-        vehicles_capacity = 30
+    # New customers
+    customers = [tuple([xl[i], yl[i], dl[i]]) for i in range(num_customers)]
 
-        # New customer
-        customers.append(tuple([x, y, d]))
+    # Vehiclesapacity
+    vehicles_capacity = sum(dl) / (num_vehicles - 1)
 
-    return depot, customers, vehicles_capacity
+    return customers, vehicles_capacity
