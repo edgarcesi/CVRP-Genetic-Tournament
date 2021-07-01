@@ -94,4 +94,5 @@ if __name__ == "__main__":
     )
 
     print(best_chromosome)
+    print(len(best_chromosome))
     print(best_fitness)

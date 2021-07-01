@@ -1,5 +1,5 @@
 from math import floor
-import numpy as np
+from numpy import delete, fliplr
 from itertools import chain
 from random import random, sample
 from copy import deepcopy
@@ -13,9 +13,9 @@ def create_population(
     customers
 ):
     # Initialization
-    chromosomes = np.array([
+    chromosomes = [
         create_shuffle_array(len(customers)) for _ in range(POPULATION_SIZE)
-    ])
+    ]
 
     # Chromosomes validity
     chromosomes = separate_by_capacity(
@@ -82,9 +82,9 @@ def elistism(
                 pos = i
                 best = chromosomes[i]
         elites.append(
-            np.array(list(chain.from_iterable(best.copy())))
+            list(chain.from_iterable(best.copy()))
         )
-        chromosomes = np.delete(chromosomes, [pos], axis=0)
+        chromosomes = delete(chromosomes, [pos], axis=0)
 
     return elites
 
@@ -108,9 +108,8 @@ def crossover(
     if num_chromosomes % 2 == 0:
         num_chromosomes = int(num_chromosomes / 2)
     else:
-        crossed_chromosomes.append(
-            np.array(list(chain.from_iterable(chromosomes[0]))))
-        np.delete(chromosomes, 0)
+        crossed_chromosomes.append((list(chain.from_iterable(chromosomes[0]))))
+        delete(chromosomes, 0)
         num_chromosomes = int((num_chromosomes - 1) / 2)
 
     # Breeding process
@@ -180,7 +179,7 @@ def tournament_selection(
                 best = chromosomes[i]
 
         selection.append(best.copy())
-        chromosomes = np.delete(chromosomes, [index], axis=0)
+        chromosomes = delete(chromosomes, [index], axis=0)
 
     # Gene recombination
     for _ in range(0, len(chromosomes)):
@@ -226,10 +225,9 @@ def mutation(
                     < fitness(best, customers, COORDINATES_DEPOT):
                 pos = i
                 best = chromosomes[i]
-        mutated_chromosomes.append(
-            np.array(list(chain.from_iterable(best.copy())))
-        )
-        chromosomes = np.delete(chromosomes, [pos], axis=0)
+
+        mutated_chromosomes.append(list(chain.from_iterable(best.copy())))
+        chromosomes = delete(chromosomes, [pos], axis=0)
 
     # Number of chromosomes to create
     num_chromosomes = len(chromosomes)
@@ -243,7 +241,6 @@ def mutation(
                 else:
                     pass
             elif MUTATION_METHOD == 'EXC':
-
                 # get cut positions
                 positions = sample(range(0, len(customers)), 2)
 
@@ -251,11 +248,11 @@ def mutation(
                 positions.sort()
 
                 # concatenate
-                concatenated_chromosome = np.array(
-                    list(chain.from_iterable(chromosomes[a])))
+                concatenated_chromosome = \
+                    list(chain.from_iterable(chromosomes[a]))
 
                 # get and reverse range
-                aux = np.copy(concatenated_chromosome)[positions[0]]
+                aux = concatenated_chromosome[positions[0]]
 
                 # set reversed interval
                 concatenated_chromosome[positions[0]] \
@@ -269,7 +266,6 @@ def mutation(
 
             # if reverse
             elif MUTATION_METHOD == 'INV':
-
                 # get cut positions
                 positions = sample(range(1, len(customers) - 1), 2)
 
@@ -277,22 +273,21 @@ def mutation(
                 positions.sort()
 
                 # concatenate
-                concatenated_chromosome = np.array(
-                    list(chain.from_iterable(chromosomes[a])))
+                concatenated_chromosome = \
+                    list(chain.from_iterable(chromosomes[a]))
 
                 # get and reverse range
-                aux = np.copy(concatenated_chromosome)[
-                    positions[0]:(positions[1] + 1)]
+                aux = concatenated_chromosome[positions[0]:(positions[1] + 1)]
 
                 # set seconda value
                 concatenated_chromosome[positions[0]:(
-                    positions[1] + 1)], = np.fliplr([aux])
+                    positions[1] + 1)], = fliplr([aux])
 
                 # set new value
                 mutated_chromosomes.append(concatenated_chromosome)
         else:
             mutated_chromosomes.append(
-                np.array(list(chain.from_iterable(chromosomes[a])))
+                list(chain.from_iterable(chromosomes[a]))
             )
 
     # return

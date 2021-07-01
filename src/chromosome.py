@@ -1,5 +1,4 @@
 from itertools import chain
-import numpy as np
 from random import sample
 from utils import reorder_array, change_position_array, distance
 
@@ -24,9 +23,7 @@ def fitness(chromosome, customers, DEPOT_COORDINATE):
 
         # Calculate chromosome fitness
         for i in range(len(routes) - 1):
-            fitness += distance(
-                np.array(routes[i]), np.array(routes[i + 1])
-            )
+            fitness += distance(routes[i], routes[i + 1])
 
     return fitness
 
@@ -36,27 +33,23 @@ def obx(chromosome1, chromosome2, num_customers):
     positions = sample(range(0, num_customers), 3)
 
     # Concat chromosomes
-    concatenated_chromosome1 = np.array(
-        list(chain.from_iterable(chromosome1))
-        )
-    concatenated_chromosome2 = np.array(
-        list(chain.from_iterable(chromosome2))
-    )
+    concatenated_chromosome1 = list(chain.from_iterable(chromosome1))
+    concatenated_chromosome2 = list(chain.from_iterable(chromosome2))
     positions.sort()
 
     # Modify gene
     a = reorder_array(
-        np.copy(concatenated_chromosome1),
-        np.copy(concatenated_chromosome2),
+        concatenated_chromosome1,
+        concatenated_chromosome2,
         positions
     )
     b = reorder_array(
-        np.copy(concatenated_chromosome2),
-        np.copy(concatenated_chromosome1),
+        concatenated_chromosome2,
+        concatenated_chromosome1,
         positions
     )
 
-    return np.array(a), np.array(b)
+    return a, b
 
 
 def pmx(chromosome1, chromosome2, num_customers):
@@ -75,25 +68,21 @@ def pmx(chromosome1, chromosome2, num_customers):
     cuts_points.sort()
 
     # Concat chromosomes
-    concatenated_chromosome1 = np.array(
-        list(chain.from_iterable(chromosome1))
-        )
-    concatenated_chromosome2 = np.array(
-        list(chain.from_iterable(chromosome2))
-    )
+    concatenated_chromosome1 = list(chain.from_iterable(chromosome1))
+    concatenated_chromosome2 = list(chain.from_iterable(chromosome2))
 
     # First child
     a = change_position_array(
-        np.copy(concatenated_chromosome1),
-        np.copy(concatenated_chromosome2),
+        concatenated_chromosome1,
+        concatenated_chromosome2,
         cuts_points
     )
 
     # Second child
     b = change_position_array(
-        np.copy(concatenated_chromosome2),
-        np.copy(concatenated_chromosome1),
+        concatenated_chromosome2,
+        concatenated_chromosome1,
         cuts_points
     )
 
-    return np.array(a), np.array(b)
+    return a, b

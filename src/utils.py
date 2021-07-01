@@ -1,17 +1,18 @@
-import numpy as np
+from random import shuffle
+from math import sqrt
 
 
-def create_shuffle_array(arange):
-    arange = np.arange(arange)
-    np.random.shuffle(arange)
-    return arange
+def create_shuffle_array(n):
+    a = list(range(n))
+    shuffle(a)
+    return a
 
 
 def reorder_array(a, b, positions):
-    new_positions = np.array(np.zeros(len(positions)))
+    new_positions = []
 
     for i in range(len(positions)):
-        new_positions[i] = list(b).index(a[positions[i]])
+        new_positions.append(list(b).index(a[positions[i]]))
 
     new_positions.sort()
 
@@ -33,12 +34,7 @@ def change_position_array(a, b, positions):
     return a
 
 
-def create_shuffle_arange(arange):
-
-    arange = np.arange(arange)
-    np.random.shuffle(arange)
-    return arange
-
-
 def distance(a, b):
-    return np.linalg.norm(a - b)
+    xa, ya = a
+    xb, yb = b
+    return sqrt((xa - xb) ** 2 + (ya - yb) ** 2)

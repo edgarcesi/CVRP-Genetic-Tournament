@@ -29,6 +29,8 @@ def generate_data(
             max_demand * num_customers
         )
 
+        vehicles_capacity = 30
+
         # New customer
         customers.append(tuple([x, y, d]))
 
