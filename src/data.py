@@ -4,11 +4,11 @@ from math import pi, sqrt, cos, sin
 
 def generate_data(
     num_customers,
-    num_vehicles,
     min_distance,
     max_distance,
     min_demand,
-    max_demand
+    max_demand,
+    NUMBER_VEHICLES
 ):
     xl = []
     yl = []
@@ -32,6 +32,6 @@ def generate_data(
     customers = [tuple([xl[i], yl[i], dl[i]]) for i in range(num_customers)]
 
     # Vehiclesapacity
-    vehicles_capacity = sum(dl) / (num_vehicles - 1)
+    vehicles_capacity = sum(dl) / (NUMBER_VEHICLES - 1)
 
     return customers, vehicles_capacity
