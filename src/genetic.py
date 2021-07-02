@@ -2,12 +2,16 @@ import population
 from chromosome import fitness
 from data import generate_data, plot
 from time import process_time
+from tqdm import trange
+from numpy import VisibleDeprecationWarning
+import warnings
+warnings.filterwarnings("ignore", category=VisibleDeprecationWarning)
 
 GENERATION_LIMIT = 100
 """Generation iteration limit.
 """
 
-POPULATION_SIZE = 20
+POPULATION_SIZE = 100
 """Number of chromosomes within the population.
 """
 
@@ -66,11 +70,16 @@ if __name__ == "__main__":
         customers=customers
     )
 
+    print('\n### CONFIGURATION ###')
+    print('customers : {}'.format(len(customers)))
+    print('vehicles : {}'.format(NUMBER_VEHICLES))
+    print('vehicles capacity: {}\n'.format(vehicles_capacity))
+
     # Time
     start = process_time()
 
     # Evolution
-    for generation in range(0, GENERATION_LIMIT):
+    for generation in trange(GENERATION_LIMIT):
         # Selection
         chromosomes = population.tournament_selection(
             chromosomes=chromosomes,
@@ -104,11 +113,6 @@ if __name__ == "__main__":
         customers=customers,
         COORDINATES_DEPOT=COORDINATES_DEPOT
     )
-
-    print('\n### CONFIGURATION ###')
-    print('customers : {}'.format(len(customers)))
-    print('vehicles : {}'.format(NUMBER_VEHICLES))
-    print('vehicles capacity: {}'.format(vehicles_capacity))
 
     print('\n### BEST CHROMOSOME ###')
     print(best_chromosome)
