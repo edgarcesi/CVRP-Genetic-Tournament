@@ -7,11 +7,11 @@ from numpy import VisibleDeprecationWarning
 import warnings
 warnings.filterwarnings("ignore", category=VisibleDeprecationWarning)
 
-GENERATION_LIMIT = 200
+GENERATION_LIMIT = 100
 """Generation iteration limit.
 """
 
-POPULATION_SIZE = 100
+POPULATION_SIZE = 50
 """Number of chromosomes within the population.
 """
 
@@ -34,7 +34,7 @@ PROBABILITY_MUTATION = 0.4
 """Probability for a chromosome to mutate.
 """
 
-NUMBER_VEHICLES = 4
+NUMBER_VEHICLES = 5
 """Number of vehicles.
 """
 
@@ -47,7 +47,7 @@ COORDINATES_DEPOT = None
 
 
 if __name__ == "__main__":
-    if CVRP_INSTANCE != '':
+    if CVRP_INSTANCE is not None:
         # Load CVRP instance
         name_instance, num_customers, num_vehicles, vehicles_capacity, depot, \
             customers, optimal_solution = load_instance(path=CVRP_INSTANCE)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     else:
         # Generate random data
         customers, vehicles_capacity = generate_data(
-            num_customers=100,
+            num_customers=1000,
             min_distance=100,
             max_distance=150,
             min_demand=0,
@@ -78,6 +78,8 @@ if __name__ == "__main__":
     )
 
     print('\n### CONFIGURATION ###')
+    if CVRP_INSTANCE is not None:
+        print('name : ')
     print('customers : {}'.format(len(customers)))
     print('vehicles : {}'.format(NUMBER_VEHICLES))
     print('vehicles capacity: {}\n'.format(vehicles_capacity))
@@ -123,6 +125,7 @@ if __name__ == "__main__":
 
     print('\n### BEST CHROMOSOME ###')
     print(best_chromosome)
+    print(len(best_chromosome))
 
     print('\n### FITNESS ###')
     print(best_fitness)
