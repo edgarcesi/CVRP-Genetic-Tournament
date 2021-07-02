@@ -86,3 +86,61 @@ def plot(customers, chromosome, COORDINATES_DEPOT):
 
     # Plot
     return plt.show()
+
+
+def load_instance(path):
+    # Retrieve file
+    file = open(path)
+
+    # File content
+    content = file.readlines()
+
+    # Instance name
+    _, d = content[0].split(' : ', 1)
+    name = d.strip()
+
+    # Instance number of vehicles
+    data = content[1].split(' : ', 1)[1]
+
+    trucks = data.split()[6]
+    fleet = int(trucks[:len(trucks)-1].strip())
+
+    # Instance optimal
+    data = content[1].split(' : ', 1)[1]
+    optimal = data.split()[9]
+    optimal = int(optimal[:len(optimal) - 1].strip())
+
+    # Instance dimension
+    _, d = content[3].split(' : ', 1)
+    dimension = int(d.strip())
+
+    # Instance capacity
+    _, d = content[5].split(' : ', 1)
+    capacity = int(d.strip())
+
+    # Where to stop reading file coordinates
+    coorend = int(content[3].split(' : ', 1)[1])
+
+    # Instance coordinates
+    x = []
+    y = []
+
+    for i in range(7, 7 + coorend):
+        xy = content[i].strip().split(None, 2)[1:]
+        x.append(xy[0])
+        y.append(xy[1])
+
+    # Instance demands
+    d = []
+
+    for i in range(8 + coorend, 8 + coorend + coorend):
+        _, description = content[i].split(' ', 1)
+        d.append(description.strip())
+
+    # Instance customers
+    customers = [tuple([int(x[i]), int(y[i]), int(d[i])]) for i in range(len(x))]
+
+    # Instance depot
+    depot = customers.pop(0)[:2]
+
+    return name, dimension, fleet, capacity, depot, customers, optimal

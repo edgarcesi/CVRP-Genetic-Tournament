@@ -1,13 +1,13 @@
 import population
 from chromosome import fitness
-from data import generate_data, plot
+from data import generate_data, plot, load_instance
 from time import process_time
 from tqdm import trange
 from numpy import VisibleDeprecationWarning
 import warnings
 warnings.filterwarnings("ignore", category=VisibleDeprecationWarning)
 
-GENERATION_LIMIT = 100
+GENERATION_LIMIT = 200
 """Generation iteration limit.
 """
 
@@ -38,7 +38,7 @@ NUMBER_VEHICLES = 4
 """Number of vehicles.
 """
 
-CVRP_INSTANCE = ''
+CVRP_INSTANCE = 'data/A-n32-k5.vrp'
 """Path to a CVRP instance file.
 """
 COORDINATES_DEPOT = None
@@ -49,7 +49,14 @@ COORDINATES_DEPOT = None
 if __name__ == "__main__":
     if CVRP_INSTANCE != '':
         # Load CVRP instance
-        pass
+        name_instance, num_customers, num_vehicles, vehicles_capacity, depot, \
+            customers, optimal_solution = load_instance(path=CVRP_INSTANCE)
+
+        # Set depot location
+        COORDINATES_DEPOT = depot
+        # Set number of vehicles
+        NUMBER_VEHICLES = num_vehicles
+
     else:
         # Generate random data
         customers, vehicles_capacity = generate_data(
