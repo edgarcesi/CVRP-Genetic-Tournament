@@ -1,6 +1,7 @@
 from random import randint, random
 from math import pi, sqrt, cos, sin
 import matplotlib.pyplot as plt
+from distinctipy import distinctipy
 
 
 def generate_data(
@@ -50,12 +51,15 @@ def plot(customers, chromosome, COORDINATES_DEPOT):
     # Depot location
     xd, yd = COORDINATES_DEPOT
 
-    # Scatter X, Y and depot
-    plt.scatter(x, y, color='b')
-    plt.scatter(xd, yd, color='r')
+    # Scatter customers and depot
+    plt.scatter(x, y, s=70, color='k', marker="1", zorder=3)
+    plt.scatter(xd, yd, s=70, color='k', marker="o", zorder=3)
 
     # Grid properties
-    plt.grid(color='grey', linestyle='-', linewidth=0.1)
+    plt.grid(color='grey', linestyle='-', linewidth=0.05)
+
+    # Random route colors
+    colors = distinctipy.get_colors(len(chromosome))
 
     # Routes through customers
     for i in range(len(chromosome)):
@@ -77,11 +81,8 @@ def plot(customers, chromosome, COORDINATES_DEPOT):
         xc.append(xd)
         yc.append(yd)
 
-        # Random colors
-        def r(): return randint(0, 255)
-
-        # Connections
-        plt.plot(xc, yc, color='#%02X%02X%02X' % (r(), r(), r()))
+        # Route
+        plt.plot(xc, yc, c=colors[i], zorder=-1)
 
     # Plot
     return plt.show()
