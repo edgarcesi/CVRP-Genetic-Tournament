@@ -1,6 +1,7 @@
 import population
 from chromosome import fitness
 import data
+from time import process_time
 
 GENERATION_LIMIT = 20
 """Generation iteration limit.
@@ -65,6 +66,9 @@ if __name__ == "__main__":
         customers=customers
     )
 
+    # Time
+    start = process_time()
+
     # Evolution
     for generation in range(0, GENERATION_LIMIT):
         # Selection
@@ -90,6 +94,9 @@ if __name__ == "__main__":
             COORDINATES_DEPOT=COORDINATES_DEPOT
         )
 
+    # Time
+    end = process_time()
+
     # Best chromosome
     best_chromosome = chromosomes[0]
     best_fitness = fitness(
@@ -98,6 +105,16 @@ if __name__ == "__main__":
         COORDINATES_DEPOT=COORDINATES_DEPOT
     )
 
+    print('\n### CONFIGURATION ###')
+    print('customers : {}'.format(len(customers)))
+    print('vehicles : {}'.format(NUMBER_VEHICLES))
+    print('vehicles capacity: {}'.format(vehicles_capacity))
+
+    print('\n### BEST CHROMOSOME ###')
     print(best_chromosome)
-    print(len(best_chromosome))
+
+    print('\n### FITNESS ###')
     print(best_fitness)
+
+    print('\n### TIME ###')
+    print('{} s'.format(end - start))
