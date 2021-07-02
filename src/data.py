@@ -1,7 +1,6 @@
-from random import randint
+from random import randint, random
 from math import pi, sqrt, cos, sin
 import matplotlib.pyplot as plt
-from numpy import block
 
 
 def generate_data(
@@ -19,9 +18,10 @@ def generate_data(
     # Random customers in a circle area around depot
     for _ in range(num_customers):
         # Coordinates
-        a = randint(min_distance, max_distance) * 2 * pi
-        r = sqrt(randint(0, 500))
-        x, y = r * cos(a), r * sin(a)
+        r = randint(min_distance, max_distance) * sqrt(random())
+        t = 2 * pi * random()
+        x = r * cos(t)
+        y = r * sin(t)
 
         # Demand
         d = randint(min_demand, max_demand)

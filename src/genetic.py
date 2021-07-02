@@ -50,8 +50,8 @@ if __name__ == "__main__":
         # Generate random data
         customers, vehicles_capacity = generate_data(
             num_customers=100,
-            min_distance=5,
-            max_distance=20,
+            min_distance=100,
+            max_distance=150,
             min_demand=0,
             max_demand=20,
             NUMBER_VEHICLES=NUMBER_VEHICLES
