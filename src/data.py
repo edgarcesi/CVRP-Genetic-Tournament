@@ -1,5 +1,7 @@
 from random import randint
 from math import pi, sqrt, cos, sin
+import matplotlib.pyplot as plt
+from numpy import block
 
 
 def generate_data(
@@ -35,3 +37,51 @@ def generate_data(
     vehicles_capacity = sum(dl) / (NUMBER_VEHICLES - 1)
 
     return customers, vehicles_capacity
+
+
+def plot(customers, chromosome, COORDINATES_DEPOT):
+    # Seaborn style
+    plt.style.use('seaborn')
+
+    # X and Y data
+    x = [customer[0] for customer in customers]
+    y = [customer[1] for customer in customers]
+
+    # Depot location
+    xd, yd = COORDINATES_DEPOT
+
+    # Scatter X, Y and depot
+    plt.scatter(x, y, color='b')
+    plt.scatter(xd, yd, color='r')
+
+    # Grid properties
+    plt.grid(color='grey', linestyle='-', linewidth=0.1)
+
+    # Routes through customers
+    for i in range(len(chromosome)):
+
+        # Initialize graph with depot
+        xc = [xd]
+        yc = [yd]
+
+        # get gene
+        for y in range(len(chromosome[i])):
+            # get customers coordinates
+            customer_coordinate = customers[chromosome[i][y] - 1][:2]
+
+            # append values
+            xc.append(customer_coordinate[0])
+            yc.append(customer_coordinate[1])
+
+        # Add depot
+        xc.append(xd)
+        yc.append(yd)
+
+        # Random colors
+        def r(): return randint(0, 255)
+
+        # Connections
+        plt.plot(xc, yc, color='#%02X%02X%02X' % (r(), r(), r()))
+
+    # Plot
+    return plt.show()

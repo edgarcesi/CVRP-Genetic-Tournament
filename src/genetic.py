@@ -1,13 +1,13 @@
 import population
 from chromosome import fitness
-import data
+from data import generate_data, plot
 from time import process_time
 
-GENERATION_LIMIT = 20
+GENERATION_LIMIT = 100
 """Generation iteration limit.
 """
 
-POPULATION_SIZE = 5
+POPULATION_SIZE = 20
 """Number of chromosomes within the population.
 """
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         pass
     else:
         # Generate random data
-        customers, vehicles_capacity = data.generate_data(
+        customers, vehicles_capacity = generate_data(
             num_customers=100,
             min_distance=5,
             max_distance=20,
@@ -118,3 +118,9 @@ if __name__ == "__main__":
 
     print('\n### TIME ###')
     print('{} s'.format(end - start))
+
+    plot(
+        customers=customers,
+        chromosome=best_chromosome,
+        COORDINATES_DEPOT=COORDINATES_DEPOT
+    )
