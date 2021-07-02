@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     print('\n### CONFIGURATION ###')
     if CVRP_INSTANCE is not None:
-        print('name : ')
+        print('name : {}'.format(name_instance))
     print('customers : {}'.format(len(customers)))
     print('vehicles : {}'.format(NUMBER_VEHICLES))
     print('vehicles capacity: {}\n'.format(vehicles_capacity))
